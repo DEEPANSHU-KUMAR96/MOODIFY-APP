@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: "https://moodify-app-n3r2.onrender.com",
     withCredentials: true
 })
 
@@ -15,7 +15,7 @@ export async function register({ email, password, username }) {
 }
 
 export async function login({ email, username, password }) {
-    const response = await api.post("api/auth/login", {
+    const response = await api.post("/api/auth/login", {
         email, password, username
     })
 

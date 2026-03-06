@@ -10,7 +10,9 @@ app.use(cookieParser())
 app.use(express.static("./public")) // for deployment
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin:[ "http://localhost:5173",
+    "https://moodify-app-n3r2.onrender.com"
+    ],
     credentials: true
 }))
 
