@@ -17,7 +17,8 @@
     box-shadow: 0 0 30px rgba(139, 92, 246, 0.15);
     background: #000;
     line-height: 0;
-    border: 3px solid var(--glass-border);
+    border: 2px solid var(--glass-border);
+    max-height: 40vh; /* Limit height on all screens */
   }
 
   &__video {
@@ -121,17 +122,24 @@
     max-width: 100%;
 
     &__container {
-      border-radius: 15px;
+      border-radius: 12px;
+      max-height: 35vh; /* Smaller video on mobile */
     }
 
     &__expression-value {
-      font-size: 1.25rem;
+      font-size: 1.1rem;
+      margin-top: 5px;
+    }
+
+    &__actions {
+      margin-top: 8px;
     }
 
     &__actions .btn-3 {
       width: 100%;
-      padding: 12px;
-      font-size: 0.9rem;
+      padding: 10px;
+      font-size: 0.85rem;
+      border-radius: 12px;
     }
   }
 }
@@ -139,16 +147,26 @@
 @media (max-height: 700px) {
   .face-scanner {
     &__container {
-      max-width: 320px;
+      max-width: 280px;
       margin: 0 auto;
+      max-height: 30vh;
     }
     
     &__info-group {
-      margin-top: 8px;
+      margin-top: 5px;
+    }
+    
+    &__expression-tag {
+      font-size: 0.6rem;
+      padding: 2px 8px;
+    }
+
+    &__expression-value {
+      font-size: 1rem;
     }
     
     &__actions {
-      margin-top: 10px;
+      margin-top: 8px;
     }
   }
 }
