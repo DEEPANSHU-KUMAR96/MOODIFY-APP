@@ -6,7 +6,7 @@ import { useAuth } from '../hooks/useAuth'
 
 const Login = () => {
 
-    const {  handleLogin } = useAuth()
+    const { handleLogin } = useAuth()
 
     const navigate = useNavigate()
 
@@ -15,7 +15,7 @@ const Login = () => {
 
     async function handleSubmit(e) {
         e.preventDefault()
-        await handleLogin({email, password})
+        await handleLogin({ email, password })
         navigate('/')
 
     }
