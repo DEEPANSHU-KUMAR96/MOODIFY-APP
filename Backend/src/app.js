@@ -8,6 +8,7 @@ const app = express()
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(cookieParser())
+app.set('trust proxy', 1)
 
 app.use(express.static("./public")) // for deployment
 

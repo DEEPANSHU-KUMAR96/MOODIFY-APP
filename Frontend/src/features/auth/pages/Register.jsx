@@ -1,52 +1,64 @@
 import React, { useState } from 'react'
-import "../style/register.scss"
+import "../style/login.scss" // Using shared styles from login.scss
 import FormGroup from '../components/FormGroup'
 import { Link, useNavigate } from 'react-router'
 import { useAuth } from '../hooks/useAuth'
 
 const Register = () => {
-
     const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
     const navigate = useNavigate()
-
     const { loading, handleRegister } = useAuth()
 
     async function handleSubmit(e) {
         e.preventDefault()
-
         await handleRegister({ username, password, email })
         navigate('/')
-
     }
 
     return (
         <main className="register-page">
             <div className="form-container">
-                <h1>Register</h1>
+                <h1>Join Us</h1>
+                <p className="subtitle">Create an account to start your personalized emotional music journey.</p>
 
                 <form onSubmit={handleSubmit}>
-
                     <FormGroup
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        label='Name' placeholder='Enter your name' />
+                        label='Full Name' 
+                        placeholder='e.g. John Doe' 
+                        required
+                    />
 
                     <FormGroup
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        label='Email' placeholder='Enter your email' />
+                        label='Email Address' 
+                        placeholder='e.g. name@example.com' 
+                        type="email"
+                        required
+                    />
 
                     <FormGroup
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        label='Password' placeholder='Enter your password' />
+                        label='Password' 
+                        placeholder='••••••••' 
+                        type="password"
+                        required
+                    />
 
-                    <button className='button' type='submit'>Register</button>
+                    <button className='btn-primary' type='submit' disabled={loading}>
+                        {loading ? 'Creating Account...' : 'Get Started'}
+                    </button>
                 </form>
-                <p>Already have an account? <Link to="/login">Login here</Link></p>
+
+                <p className="footer-link">
+                    Already a member? <Link to="/login">Sign In</Link>
+                </p>
             </div>
         </main>
     )
