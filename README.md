@@ -4,7 +4,7 @@ Moodify is a **MERN stack application** that detects your **facial expressions i
 It uses **MediaPipe Face Landmarker** to analyze facial expressions and automatically suggests songs based on detected emotions.
 
 🌐 **Live Demo:**
-https://moodify-app-n3r2.onrender.com
+ https://moodify-app-n3r2.onrender.com
 
 ---
 
