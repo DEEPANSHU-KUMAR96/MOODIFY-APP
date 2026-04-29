@@ -279,7 +279,7 @@
   .player {
     flex-wrap: wrap;
     gap: 12px;
-    padding: 10px 16px;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom)) 16px;
 
     &__info {
       min-width: unset;
