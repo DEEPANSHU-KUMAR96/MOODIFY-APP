@@ -22,8 +22,11 @@ export const init = async ({ landmarkerRef, videoRef, streamRef }) => {
     );
 
     streamRef.current = await navigator.mediaDevices.getUserMedia({ video: true });
-    videoRef.current.srcObject = streamRef.current;
-    await videoRef.current.play();
+    
+    if (videoRef.current) {
+        videoRef.current.srcObject = streamRef.current;
+        await videoRef.current.play();
+    }
 
 };
 
