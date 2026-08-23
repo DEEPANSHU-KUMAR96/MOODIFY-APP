@@ -21,10 +21,23 @@ export const init = async ({ landmarkerRef, videoRef, streamRef }) => {
         }
     );
 
-    streamRef.current = await navigator.mediaDevices.getUserMedia({ video: true });
+    const constraints = {
+        video: {
+            facingMode: "user",
+            width: { ideal: 640 },
+            height: { ideal: 480 }
+        }
+    };
+
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        streamRef.current = await navigator.mediaDevices.getUserMedia(constraints);
+    } else {
+        throw new Error("getUserMedia is not supported on this browser or device.");
+    }
     
     if (videoRef.current) {
         videoRef.current.srcObject = streamRef.current;
+        videoRef.current.setAttribute("playsinline", "true");
         await videoRef.current.play();
     }
 

@@ -60,9 +60,30 @@
 
     .subtitle {
       color: var(--text-muted);
-      margin-bottom: 40px;
+      margin-bottom: 24px;
       font-size: 0.95rem;
       line-height: 1.5;
+    }
+
+    .auth-error-banner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #fca5a5;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 20px;
+      text-align: left;
+      animation: authFadeUp 0.3s ease;
+
+      svg {
+        flex-shrink: 0;
+        color: #ef4444;
+      }
     }
   }
 

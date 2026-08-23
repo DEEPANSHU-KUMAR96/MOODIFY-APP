@@ -11,35 +11,46 @@ export default function FaceExpression({ onClick = () => { } }) {
 
     const [expression, setExpression] = useState("Waiting...");
     const [isInitializing, setIsInitializing] = useState(true);
+    const [cameraError, setCameraError] = useState(false);
 
     const isLoading = isInitializing || isSongLoading;
 
-    useEffect(() => {
-        const startCamera = async () => {
-            try {
-                await init({ landmarkerRef, videoRef, streamRef });
-                setIsInitializing(false);
-                setExpression("Ready");
-            } catch (err) {
-                console.error("Failed to initialize camera:", err);
-                setExpression("Error");
-            }
-        };
+    const startCamera = async () => {
+        setIsInitializing(true);
+        setCameraError(false);
+        try {
+            await init({ landmarkerRef, videoRef, streamRef });
+            setExpression("Ready");
+        } catch (err) {
+            console.error("Failed to initialize camera / AI:", err);
+            setExpression("Camera Error");
+            setCameraError(true);
+        } finally {
+            setIsInitializing(false);
+        }
+    };
 
+    useEffect(() => {
         startCamera();
 
         return () => {
             if (landmarkerRef.current) {
-                landmarkerRef.current.close();
+                try { landmarkerRef.current.close(); } catch (e) {}
             }
 
             if (streamRef.current) {
-                streamRef.current.getTracks().forEach((track) => track.stop());
+                try {
+                    streamRef.current.getTracks().forEach((track) => track.stop());
+                } catch (e) {}
             }
         };
     }, []);
 
     async function handleClick() {
+        if (cameraError) {
+            startCamera();
+            return;
+        }
         if (isLoading) return;
         const detectedExpression = detect({ landmarkerRef, videoRef, setExpression });
         if (detectedExpression) {
@@ -53,14 +64,25 @@ export default function FaceExpression({ onClick = () => { } }) {
                 <video
                     ref={videoRef}
                     className="face-scanner__video"
+                    autoPlay
                     playsInline
                     muted
                 />
-                {!isInitializing && <div className="face-scanner__overlay"></div>}
+                {!isInitializing && !cameraError && <div className="face-scanner__overlay"></div>}
                 {isInitializing && (
                     <div className="face-scanner__loader">
                         <div className="face-scanner__spinner" />
                         <span>Initializing AI Scanner...</span>
+                    </div>
+                )}
+                {cameraError && (
+                    <div className="face-scanner__loader face-scanner__loader--error">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="2" width="32" height="32">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="8" x2="12" y2="12" />
+                            <line x1="12" y1="16" x2="12.01" y2="16" />
+                        </svg>
+                        <span>Camera access needed</span>
                     </div>
                 )}
             </div>
@@ -74,15 +96,15 @@ export default function FaceExpression({ onClick = () => { } }) {
 
             <div className="face-scanner__actions">
                 <button 
-                    className="btn-3" 
+                    className={`btn-3 ${cameraError ? 'btn-3--retry' : ''}`} 
                     onClick={handleClick}
-                    disabled={isLoading}
+                    disabled={isSongLoading || (isInitializing && !cameraError)}
                 >
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" width="20" height="20">
                         <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
                         <circle cx="12" cy="13" r="4" />
                     </svg>
-                    {isInitializing ? "Loading AI..." : isSongLoading ? "Finding Song..." : "Detect Mood"}
+                    {cameraError ? "Retry Camera" : isInitializing ? "Loading AI..." : isSongLoading ? "Finding Song..." : "Detect Mood"}
                 </button>
             </div>
         </section>
