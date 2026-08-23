@@ -1,62 +1,70 @@
 .home-container {
-  height: 100vh;
+  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px 20px 80px 20px; /* Minimal bottom padding for fixed player */
-  overflow: hidden;
+  padding: 24px 20px 110px 20px;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  gap: 15px;
+  gap: 16px;
+  box-sizing: border-box;
 }
 
 .home-header {
   text-align: center;
   margin-bottom: 0;
   width: 100%;
+  flex-shrink: 0;
 }
 
 .home-title {
-  font-size: 3rem;
+  font-size: 2.8rem;
   margin-bottom: 4px;
-  background: linear-gradient(to right, #fff, var(--primary));
+  background: linear-gradient(to right, #fff, var(--primary), var(--secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 800;
   letter-spacing: -0.02em;
+  line-height: 1.15;
 }
 
 .home-subtitle {
   color: var(--text-muted);
   font-size: 0.9rem;
   font-weight: 500;
+  letter-spacing: 0.01em;
 }
 
 @media (max-width: 640px) {
   .home-container {
-    padding: 10px 15px 70px 15px;
-    gap: 8px;
+    padding: 16px 16px 95px 16px;
+    gap: 10px;
     justify-content: center;
   }
 
   .home-title {
-    font-size: 2rem;
+    font-size: 1.85rem;
   }
 
   .home-subtitle {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
   }
 }
 
-@media (max-height: 700px) {
+@media (max-height: 720px) {
   .home-container {
-    padding-top: 10px;
-    gap: 5px;
+    padding: 12px 14px 90px 14px;
+    gap: 8px;
   }
   
   .home-title {
-    font-size: 1.75rem;
+    font-size: 1.6rem;
+  }
+
+  .home-subtitle {
+    font-size: 0.75rem;
   }
 }

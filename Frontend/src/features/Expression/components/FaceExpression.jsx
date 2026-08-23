@@ -59,7 +59,8 @@ export default function FaceExpression({ onClick = () => { } }) {
                 {!isInitializing && <div className="face-scanner__overlay"></div>}
                 {isInitializing && (
                     <div className="face-scanner__loader">
-                        Initializing AI...
+                        <div className="face-scanner__spinner" />
+                        <span>Initializing AI Scanner...</span>
                     </div>
                 )}
             </div>
