@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { detect, init } from "../utils/utils";
+import { detect, initCamera, initLandmarker } from "../utils/utils";
 import "../style/FaceExpression.scss";
 import { useSong } from "../../home/hooks/useSongs";
 
@@ -11,6 +11,7 @@ export default function FaceExpression({ onClick = () => { } }) {
 
     const [expression, setExpression] = useState("Waiting...");
     const [isInitializing, setIsInitializing] = useState(true);
+    const [initStatus, setInitStatus] = useState("Starting Camera...");
     const [cameraError, setCameraError] = useState(false);
 
     const isLoading = isInitializing || isSongLoading;
@@ -19,7 +20,10 @@ export default function FaceExpression({ onClick = () => { } }) {
         setIsInitializing(true);
         setCameraError(false);
         try {
-            await init({ landmarkerRef, videoRef, streamRef });
+            setInitStatus("Starting Camera...");
+            await initCamera({ videoRef, streamRef });
+            setInitStatus("Loading AI Vision...");
+            await initLandmarker({ landmarkerRef });
             setExpression("Ready");
         } catch (err) {
             console.error("Failed to initialize camera / AI:", err);
@@ -72,7 +76,7 @@ export default function FaceExpression({ onClick = () => { } }) {
                 {isInitializing && (
                     <div className="face-scanner__loader">
                         <div className="face-scanner__spinner" />
-                        <span>Initializing AI Scanner...</span>
+                        <span>{initStatus}</span>
                     </div>
                 )}
                 {cameraError && (
